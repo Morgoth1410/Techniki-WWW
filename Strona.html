@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Site with snek</title>
+        <style>
+
+            body {
+                margin: 0; /* Usuwany jest margin */
+                height: 100vh; /* Wysokość jest ustawiona na całe okno żeby potem było to wycentrowane względem wyskości */
+                display: flex;
+                justify-content: center; /* Centruje flexbox w poziomie */
+                align-items: center; /* Centruje flexbox w pionie */
+                text-align: center;
+                font-family: "Press Start 2P", monospace; /* Czcionka. Jak nie Press Start 2P to monospace */
+                background-image: url("Background.png"); /* Background */
+                background-size: auto; 
+            }
+
+            p {
+                color: gray;
+            }
+
+            .ramka { 
+                position: relative; /* Ramka jest punktem odniesienia dla innych elementów */ 
+                display: inline-block; /* Rozmiar zależny od zawartości */
+                padding: 250px; /* Odstęp krawędzi ramki od tekstu */
+                margin: 0;
+                background: rgba(255, 255, 255, 0.4); /* Kolor i przezroczystość */
+            }
+
+            .seg { /* Segmenty węża */
+                position: absolute; /* Pozycja relatywna do ramki */
+                width: 20px;
+                height: 20px;
+                box-sizing: border-box; /* Segment mieści się w 20 x 20px */
+                border: 2px solid black; 
+                background: limegreen;
+                offset-path: inset(15px); /* Trasa segmentu. Oddalona o 15px od body */
+                offset-rotate: 0deg; /* Nie odwraca się */
+                animation: jazda 15s linear infinite; /* Czas trwania animacji. Stała prędkość w nieskoczoność */
+                animation-delay: calc(var(--i) * -0.15s); /* Przesunięcie segmentu do przodu. Każdy ma po 0.15 sekund od poprzedniego */
+            }
+
+            .glowa { /* Głowa węża */
+                clip-path: polygon(0 0, 100% 50%, 0 100%); /* Trójkąt zamiast kwadratu. */
+                offset-rotate: reverse; /* Głowa rotuje w drugą strone ponieważ animacja jest w kierunku przeciwnym od wskazówek zegara */
+                background: black;
+                border: none;
+            }
+
+            .glowa::before { /* Pseudoelement. Tworzy zielony trójkąt mnijeszy o 3px na poprzednim czarnym trójkącie */
+                content: "";
+                position: absolute;
+                inset: 3px;
+                background: limegreen;
+                clip-path: polygon(0 0, 100% 50%, 0 100%);
+            }
+
+            @keyframes jazda { /* Animacja */
+                from { offset-distance: 100%; }
+                to   { offset-distance: 0%; }
+            }
+
+        </style>
+    </head>
+
+    <body>
+            <div class="ramka">
+                <h1>This is a snek site</h1>
+                <p>Snek is slithering...</p>
+
+                <div class="seg" style="--i: 0"></div> <!-- Segmenty węża. Każdy ma zmienną i od index potrzebną do delay -->
+                <div class="seg" style="--i: 1"></div>
+                <div class="seg" style="--i: 2"></div>
+                <div class="seg" style="--i: 3"></div>
+                <div class="seg" style="--i: 4"></div>
+                <div class="seg" style="--i: 5"></div>
+                <div class="seg" style="--i: 6"></div>
+                <div class="seg glowa" style="--i: 7"></div> <!-- Głowa z dwoma klasami -->
+            </div>
+
+    </body>
+
+</html>
